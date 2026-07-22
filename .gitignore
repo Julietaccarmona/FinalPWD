@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Entorno virtual
+backend/.venv/
+.venv/
+
+# Variables de entorno
+backend/.env
+.env
+
+# Dependencias de Vue
+frontend/node_modules/
+
+# Archivos generados
+dist/
+coverage/
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
