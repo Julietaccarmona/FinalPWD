@@ -2,6 +2,7 @@ from flask import Flask
 
 from app.config import Config
 from app.extensions import db, jwt, migrate, cors
+from app.models import Usuario
 
 
 def create_app():
