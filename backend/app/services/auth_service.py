@@ -1,5 +1,6 @@
 from app.extensions import db
 from app.models.usuario import Usuario
+from flask_jwt_extended import create_access_token
 
 
 class AuthService:
@@ -24,3 +25,30 @@ class AuthService:
         db.session.commit()
 
         return usuario, None
+
+    @staticmethod
+    def login(email, password):
+        usuario = Usuario.query.filter_by(email=email).first()
+
+        if not usuario:
+            return None, "Credenciales incorrectas."
+
+        if not usuario.check_password(password):
+            return None, "Credenciales incorrectas."
+
+        access_token = create_access_token(
+            identity=str(usuario.id),
+            additional_claims={
+                "rol": usuario.rol
+            }
+        )
+
+        return {
+            "access_token": access_token,
+            "usuario": {
+                "id": usuario.id,
+                "nombre": usuario.nombre,
+                "email": usuario.email,
+                "rol": usuario.rol
+            }
+        }, None
