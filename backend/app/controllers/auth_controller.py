@@ -37,3 +37,24 @@ class AuthController:
                 "rol": usuario.rol
             }
         }), 201
+        
+    @staticmethod
+    def login():
+        datos = request.get_json()
+
+        email = datos.get("email")
+        password = datos.get("password")
+
+        if not email or not password:
+            return jsonify({
+                "mensaje": "Email y contraseña son obligatorios."
+            }), 400
+
+        respuesta, error = AuthService.login(email, password)
+
+        if error:
+            return jsonify({
+                "mensaje": error
+            }), 401
+
+        return jsonify(respuesta), 200
