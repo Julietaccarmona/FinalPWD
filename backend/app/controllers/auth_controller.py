@@ -1,5 +1,6 @@
 from flask import request, jsonify
 from app.services.auth_service import AuthService
+from flask_jwt_extended import get_jwt_identity
 
 
 class AuthController:
@@ -58,3 +59,12 @@ class AuthController:
             }), 401
 
         return jsonify(respuesta), 200
+
+    @staticmethod
+    def perfil():
+        usuario_id = get_jwt_identity()
+
+        return jsonify({
+            "mensaje": "Acceso autorizado.",
+            "usuario_id": usuario_id
+        }), 200
