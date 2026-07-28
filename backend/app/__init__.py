@@ -3,9 +3,12 @@ from flask import Flask
 from app.config import Config
 from app.extensions import db, jwt, migrate, cors
 from app.models import Usuario
+
 from app.routes.auth_routes import auth_bp
 
 from app.routes.convenio_routes import convenio_bp
+
+from app.routes.pais_routes import pais_bp
 
 def create_app():
     app = Flask(__name__)
@@ -18,6 +21,7 @@ def create_app():
     
     app.register_blueprint(auth_bp)
     app.register_blueprint(convenio_bp)
+    app.register_blueprint(pais_bp)
 
     @app.route("/")
     def home():
