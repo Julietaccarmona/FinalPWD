@@ -1,7 +1,9 @@
 from app.extensions import db
 from app.models.usuario import Usuario
-from flask_jwt_extended import create_access_token
-
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token
+)
 
 class AuthService:
 
@@ -43,8 +45,15 @@ class AuthService:
             }
         )
 
+        refresh_token = create_refresh_token(
+            identity=str(usuario.id)
+        )
+        
+      
+
         return {
             "access_token": access_token,
+            "refresh_token": refresh_token,
             "usuario": {
                 "id": usuario.id,
                 "nombre": usuario.nombre,
