@@ -5,6 +5,8 @@ from app.extensions import db, jwt, migrate, cors
 from app.models import Usuario
 from app.routes.auth_routes import auth_bp
 
+from app.routes.convenio_routes import convenio_bp
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -15,9 +17,10 @@ def create_app():
     cors.init_app(app)
     
     app.register_blueprint(auth_bp)
+    app.register_blueprint(convenio_bp)
 
     @app.route("/")
     def home():
         return {"mensaje": "API Observatorio de Cooperación Internacional"}
-
+    
     return app
