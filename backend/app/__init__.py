@@ -10,6 +10,8 @@ from app.routes.convenio_routes import convenio_bp
 
 from app.routes.pais_routes import pais_bp
 
+from app.routes.actor_routes import actor_bp
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -22,6 +24,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(convenio_bp)
     app.register_blueprint(pais_bp)
+    app.register_blueprint(actor_bp)
 
     @app.route("/")
     def home():
