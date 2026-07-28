@@ -17,3 +17,8 @@ def login():
 @jwt_required()
 def perfil():
     return AuthController.perfil()
+
+@auth_bp.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    return AuthController.refresh()
