@@ -22,8 +22,21 @@ class Convenio(db.Model):
         db.ForeignKey("usuarios.id"),
         nullable=False
     )
-    
-    usuario = db.relationship(
-    "Usuario",
-    backref="convenios"
+
+    pais_id = db.Column(
+        db.Integer,
+        db.ForeignKey("paises.id"),
+        nullable=False
+    )
+
+    actor_id = db.Column(
+        db.Integer,
+        db.ForeignKey("actores.id"),
+        nullable=False
+    )
+
+    tipo_convenio_id = db.Column(
+        db.Integer,
+        db.ForeignKey("tipos_convenio.id"),
+        nullable=False
     )
