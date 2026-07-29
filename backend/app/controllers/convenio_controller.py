@@ -1,4 +1,5 @@
 from flask import request, jsonify
+from flask_jwt_extended import get_jwt_identity
 
 from app.services.convenio_service import ConvenioService
 
@@ -42,10 +43,12 @@ class ConvenioController:
         "actor": convenio.actor.nombre if convenio.actor else None,
         "tipo_convenio": convenio.tipo_convenio.nombre if convenio.tipo_convenio else None,
         })
-
+        
     @staticmethod
     def crear():
         datos = request.get_json()
+
+        datos["usuario_id"] = int(get_jwt_identity())
 
         convenio = ConvenioService.crear(datos)
 
@@ -53,7 +56,7 @@ class ConvenioController:
             "mensaje": "Convenio creado correctamente",
             "id": convenio.id
         }, 201
-
+        
     @staticmethod
     def actualizar(convenio_id):
         convenio = ConvenioService.obtener_por_id(convenio_id)
