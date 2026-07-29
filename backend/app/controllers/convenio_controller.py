@@ -4,7 +4,7 @@ from app.services.convenio_service import ConvenioService
 
 
 class ConvenioController:
-
+    
     @staticmethod
     def listar():
         convenios = ConvenioService.obtener_todos()
@@ -16,11 +16,14 @@ class ConvenioController:
                 "descripcion": c.descripcion,
                 "fecha_firma": c.fecha_firma.isoformat() if c.fecha_firma else None,
                 "estado": c.estado,
-                "usuario_id": c.usuario_id
+                "usuario_id": c.usuario_id,
+                "pais": c.pais.nombre if c.pais else None,
+                "actor": c.actor.nombre if c.actor else None,
+                "tipo_convenio": c.tipo_convenio.nombre if c.tipo_convenio else None,
             }
             for c in convenios
         ])
-
+    
     @staticmethod
     def obtener(convenio_id):
         convenio = ConvenioService.obtener_por_id(convenio_id)
@@ -29,12 +32,15 @@ class ConvenioController:
             return {"mensaje": "Convenio no encontrado"}, 404
 
         return jsonify({
-            "id": convenio.id,
-            "titulo": convenio.titulo,
-            "descripcion": convenio.descripcion,
-            "fecha_firma": convenio.fecha_firma.isoformat() if convenio.fecha_firma else None,
-            "estado": convenio.estado,
-            "usuario_id": convenio.usuario_id
+        "id": convenio.id,
+        "titulo": convenio.titulo,
+        "descripcion": convenio.descripcion,
+        "fecha_firma": convenio.fecha_firma.isoformat() if convenio.fecha_firma else None,
+        "estado": convenio.estado,
+        "usuario_id": convenio.usuario_id,
+        "pais": convenio.pais.nombre if convenio.pais else None,
+        "actor": convenio.actor.nombre if convenio.actor else None,
+        "tipo_convenio": convenio.tipo_convenio.nombre if convenio.tipo_convenio else None,
         })
 
     @staticmethod
