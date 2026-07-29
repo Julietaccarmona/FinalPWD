@@ -12,6 +12,8 @@ from app.routes.pais_routes import pais_bp
 
 from app.routes.actor_routes import actor_bp
 
+from app.routes.tipo_convenio_routes import tipo_convenio_bp
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -25,7 +27,8 @@ def create_app():
     app.register_blueprint(convenio_bp)
     app.register_blueprint(pais_bp)
     app.register_blueprint(actor_bp)
-
+    app.register_blueprint(tipo_convenio_bp)
+    
     @app.route("/")
     def home():
         return {"mensaje": "API Observatorio de Cooperación Internacional"}
