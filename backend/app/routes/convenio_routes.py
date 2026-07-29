@@ -3,6 +3,8 @@ from flask_jwt_extended import jwt_required
 
 from app.controllers.convenio_controller import ConvenioController
 
+from app.utils.decorators import admin_required
+
 convenio_bp = Blueprint("convenios", __name__, url_prefix="/convenios")
 
 
@@ -32,5 +34,6 @@ def actualizar(convenio_id):
 
 @convenio_bp.route("/<int:convenio_id>", methods=["DELETE"])
 @jwt_required()
+@admin_required()
 def eliminar(convenio_id):
     return ConvenioController.eliminar(convenio_id)
