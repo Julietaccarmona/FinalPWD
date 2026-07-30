@@ -27,23 +27,44 @@
 
       <div>
         <label>País</label><br />
-        <input type="number" v-model="pais_id" />
-      </div>
 
+        <select v-model="pais_id">
+          <option value="">Seleccione un país</option>
+
+          <option v-for="pais in paises" :key="pais.id" :value="pais.id">
+            {{ pais.nombre }}
+          </option>
+        </select>
+      </div>
       <br />
 
       <div>
         <label>Actor</label><br />
-        <input type="number" v-model="actor_id" />
+
+        <select v-model="actor_id">
+          <option value="">Seleccione un actor</option>
+
+          <option v-for="actor in actores" :key="actor.id" :value="actor.id">
+            {{ actor.nombre }}
+          </option>
+        </select>
       </div>
 
       <br />
 
       <div>
         <label>Tipo de convenio</label><br />
-        <input type="number" v-model="tipo_convenio_id" />
+
+        <select v-model="tipo_convenio_id">
+          <option value="">Seleccione un tipo</option>
+
+          <option v-for="tipo in tiposConvenio" :key="tipo.id" :value="tipo.id">
+            {{ tipo.nombre }}
+          </option>
+        </select>
       </div>
 
+      <br />
       <div>
         <label>Descripción</label><br />
         <textarea v-model="descripcion"></textarea>
@@ -57,9 +78,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { crearConvenio } from "../services/convenioService";
+import { obtenerPaises } from "../services/paisService";
+import { obtenerActores } from "../services/actorService";
+import { obtenerTiposConvenio } from "../services/tipoConvenioService";
 
 const titulo = ref("");
 const descripcion = ref("");
@@ -70,6 +94,10 @@ const pais_id = ref("");
 const actor_id = ref("");
 const tipo_convenio_id = ref("");
 const auth = useAuthStore();
+
+const paises = ref([]);
+const actores = ref([]);
+const tiposConvenio = ref([]);
 
 async function guardarConvenio() {
   try {
@@ -98,4 +126,25 @@ async function guardarConvenio() {
     alert(error.response?.data?.mensaje || "Error al crear el convenio.");
   }
 }
+
+onMounted(async () => {
+  try {
+    const [listaPaises, listaActores, listaTipos] = await Promise.all([
+      obtenerPaises(auth.token),
+      obtenerActores(auth.token),
+      obtenerTiposConvenio(auth.token),
+    ]);
+
+    paises.value = listaPaises;
+    actores.value = listaActores;
+    tiposConvenio.value = listaTipos;
+
+  } catch (error) {
+    console.error("Error cargando datos del formulario:", error);
+
+    alert(
+      "No se pudieron cargar los datos. Probablemente la sesión expiró."
+    );
+  }
+});
 </script>
