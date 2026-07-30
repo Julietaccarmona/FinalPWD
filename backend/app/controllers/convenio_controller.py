@@ -18,6 +18,7 @@ class ConvenioController:
                 "fecha_firma": c.fecha_firma.isoformat() if c.fecha_firma else None,
                 "estado": c.estado,
                 "usuario_id": c.usuario_id,
+                "usuario": c.usuario.nombre if c.usuario else None,
                 "pais": c.pais.nombre if c.pais else None,
                 "actor": c.actor.nombre if c.actor else None,
                 "tipo_convenio": c.tipo_convenio.nombre if c.tipo_convenio else None,

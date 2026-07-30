@@ -13,6 +13,7 @@
           <th>Actor</th>
           <th>Tipo</th>
           <th>Estado</th>
+          <th>Cargado por</th>
           <th v-if="auth.esAdmin">Acciones</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@
           <td>{{ convenio.actor }}</td>
           <td>{{ convenio.tipo_convenio }}</td>
           <td>{{ convenio.estado }}</td>
+          <td>{{ convenio.usuario }}</td>
           <td v-if="auth.esAdmin">
             <button @click="borrarConvenio(convenio.id)">Eliminar</button>
           </td>
