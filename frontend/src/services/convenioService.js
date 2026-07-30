@@ -19,3 +19,13 @@ export async function crearConvenio(datos, token) {
 
   return response.data;
 }
+
+export async function eliminarConvenio(id, token) {
+  const response = await api.delete(`/convenios/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+}
