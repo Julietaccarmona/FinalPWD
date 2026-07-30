@@ -7,6 +7,7 @@
       <RouterLink to="/login">Login</RouterLink> |
       <RouterLink to="/register">Registro</RouterLink> |
       <RouterLink to="/convenios">Convenios</RouterLink>
+      <RouterLink to="/convenios/nuevo">Nuevo convenio</RouterLink>
     </nav>
 
     <hr />

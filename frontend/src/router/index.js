@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import ConveniosView from "../views/ConveniosView.vue";
+import CrearConvenioView from "../views/CrearConvenioView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -28,6 +29,10 @@ const router = createRouter({
       name: "convenios",
       component: ConveniosView,
     },
+    {
+      path: "/convenios/nuevo",
+      component: CrearConvenioView,
+    }
   ],
 });
 
