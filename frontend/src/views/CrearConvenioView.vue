@@ -58,6 +58,8 @@
 
 <script setup>
 import { ref } from "vue";
+import { useAuthStore } from "../stores/auth";
+import { crearConvenio } from "../services/convenioService";
 
 const titulo = ref("");
 const descripcion = ref("");
@@ -67,16 +69,33 @@ const estado = ref("En negociación");
 const pais_id = ref("");
 const actor_id = ref("");
 const tipo_convenio_id = ref("");
+const auth = useAuthStore();
 
-function guardarConvenio() {
-  console.log({
-    titulo: titulo.value,
-    descripcion: descripcion.value,
-    fecha_firma: fecha_firma.value,
-    estado: estado.value,
-    pais_id: pais_id.value,
-    actor_id: actor_id.value,
-    tipo_convenio_id: tipo_convenio_id.value,
-  });
+async function guardarConvenio() {
+  try {
+    const datos = {
+      titulo: titulo.value,
+      descripcion: descripcion.value,
+      fecha_firma: fecha_firma.value,
+      estado: estado.value,
+      pais_id: Number(pais_id.value),
+      actor_id: Number(actor_id.value),
+      tipo_convenio_id: Number(tipo_convenio_id.value),
+    };
+    console.log(auth.token);
+    const respuesta = await crearConvenio(datos, auth.token);
+
+    console.log(respuesta);
+    console.log("TOKEN:", auth.token);
+    console.log("USUARIO:", auth.usuario);
+
+    alert("Convenio creado correctamente.");
+  } catch (error) {
+    console.error(error);
+    console.log(error.response);
+    console.log(error.response.data);
+
+    alert(error.response?.data?.mensaje || "Error al crear el convenio.");
+  }
 }
 </script>
