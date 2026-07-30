@@ -29,3 +29,23 @@ export async function eliminarConvenio(id, token) {
 
   return response.data;
 }
+
+export async function obtenerConvenio(id, token) {
+  const response = await api.get(`/convenios/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+}
+
+export async function actualizarConvenio(id, datos, token) {
+  const response = await api.put(`/convenios/${id}`, datos, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+}

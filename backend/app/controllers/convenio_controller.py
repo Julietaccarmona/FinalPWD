@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import get_jwt_identity, get_jwt
 
 from app.services.convenio_service import ConvenioService
 
@@ -34,15 +34,21 @@ class ConvenioController:
             return {"mensaje": "Convenio no encontrado"}, 404
 
         return jsonify({
-        "id": convenio.id,
-        "titulo": convenio.titulo,
-        "descripcion": convenio.descripcion,
-        "fecha_firma": convenio.fecha_firma.isoformat() if convenio.fecha_firma else None,
-        "estado": convenio.estado,
-        "usuario_id": convenio.usuario_id,
-        "pais": convenio.pais.nombre if convenio.pais else None,
-        "actor": convenio.actor.nombre if convenio.actor else None,
-        "tipo_convenio": convenio.tipo_convenio.nombre if convenio.tipo_convenio else None,
+            "id": convenio.id,
+            "titulo": convenio.titulo,
+            "descripcion": convenio.descripcion,
+            "fecha_firma": convenio.fecha_firma.isoformat() if convenio.fecha_firma else None,
+            "estado": convenio.estado,
+
+            "usuario_id": convenio.usuario_id,
+
+            "pais_id": convenio.pais_id,
+            "actor_id": convenio.actor_id,
+            "tipo_convenio_id": convenio.tipo_convenio_id,
+
+            "pais": convenio.pais.nombre if convenio.pais else None,
+            "actor": convenio.actor.nombre if convenio.actor else None,
+            "tipo_convenio": convenio.tipo_convenio.nombre if convenio.tipo_convenio else None,
         })
         
     @staticmethod
@@ -58,18 +64,35 @@ class ConvenioController:
             "id": convenio.id
         }, 201
         
+        
     @staticmethod
     def actualizar(convenio_id):
+
         convenio = ConvenioService.obtener_por_id(convenio_id)
 
         if not convenio:
             return {"mensaje": "Convenio no encontrado"}, 404
 
+        usuario_actual = int(get_jwt_identity())
+        claims = get_jwt()
+
+        es_admin = claims.get("rol") == "admin"
+
+        if convenio.usuario_id != usuario_actual and not es_admin:
+            return {
+                "mensaje": "No tiene permisos para editar este convenio"
+            }, 403
+    
+    
+
         datos = request.get_json()
 
         ConvenioService.actualizar(convenio, datos)
 
-        return {"mensaje": "Convenio actualizado correctamente"}
+        return {
+            "mensaje": "Convenio actualizado correctamente"
+        }
+
 
     @staticmethod
     def eliminar(convenio_id):

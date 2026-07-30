@@ -5,6 +5,7 @@ import LoginView from "../views/LoginView.vue";
 import RegisterView from "../views/RegisterView.vue";
 import ConveniosView from "../views/ConveniosView.vue";
 import CrearConvenioView from "../views/CrearConvenioView.vue";
+import EditarConvenioView from "../views/EditarConvenioView.vue";
 
 import { useAuthStore } from "../stores/auth";
 
@@ -40,6 +41,10 @@ const router = createRouter({
       meta: {
         requiresAuth: true,
       },
+    },
+    {
+      path: "/convenios/:id/editar",
+      component: EditarConvenioView,
     },
   ],
 });
